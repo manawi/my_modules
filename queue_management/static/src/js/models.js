@@ -47,5 +47,6 @@ var Screen = Class.extend({
 
 return {
     Line: Line,
+    Screen: Screen,
 };
 });

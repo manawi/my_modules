@@ -10,7 +10,7 @@ var _t = core._t;
 
 require('web.dom_ready');
 
-var SreenApp = Widget.extend({
+var ScreenApp = Widget.extend({
     template: 'queue_management.app',
     xmlDependencies: ['/queue_management/static/src/xml/screen_views.xml'],
     init: function (parent, options) {
@@ -19,7 +19,7 @@ var SreenApp = Widget.extend({
     },
     willStart: function () {
         return $.when(this._super.apply(this, arguments),
-                      this.user.fetchAllLines()
+                      this.screen.fetchAllLines()
         );
     },
     start: function () {
