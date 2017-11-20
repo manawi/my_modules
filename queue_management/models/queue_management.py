@@ -100,7 +100,7 @@ class QueueManagementTicket(models.Model):
         else:
             self.ticket_state = 'current'
             self.env['queue.management.log'].sudo().create({'ticket_id': self.id,
-                                                            'desk': agent.desk})
+                                                            'desk_id': agent.desk_id.id})
             ticket = self.get_next_ticket(agent.primary_service_id.id)
             if ticket and ticket.id != self.id:
                 ticket.ticket_state = 'next'
