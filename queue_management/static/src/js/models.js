@@ -35,7 +35,7 @@ var Screen = Class.extend({
             model: 'queue.management.log',
             method: 'search_read',
             args: [[['ticket_state', '=', 'current']]],
-            kwargs: {fields: ['id', 'ticket_id', 'desk', 'service_id']}
+            kwargs: {fields: ['id', 'ticket_id', 'desk_id', 'service_id']}
         }).then(function (line_values) {
             for (var vals of line_values) {
                 self.lines.push(new Line(vals));

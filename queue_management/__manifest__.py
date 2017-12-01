@@ -20,6 +20,7 @@
         "base_details",
         # "hw_escpos",
         "website",
+        "bus",
     ],
     "external_dependencies": {"python": [], "bin": []},
     "data": [

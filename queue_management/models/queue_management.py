@@ -40,6 +40,18 @@ class QueueManagementTicket(models.Model):
         ('done', 'Done'),
         ('no-show', 'No-show')], 'Ticket State', required=True, copy=False, default='pending', readonly=True)
 
+    @api.multi
+    def write(self, vals):
+        result = super().write(vals)
+        ticket_state = vals.get('ticket_state')
+        if ticket_state and ticket_state == 'current':
+            (channel, message) = ((self._cr.dbname, 'screen.ticket'), ('current_ticket', self.ids))
+            self.env['bus.bus'].sendone(channel, message)
+        elif ticket_state:
+            (channel, message) = ((self._cr.dbname, 'screen.ticket'), ('done_ticket', self.ids))
+            self.env['bus.bus'].sendone(channel, message)
+        return result
+
     def _generate_order_by(self, order_spec, query):
         my_order = "CASE WHEN ticket_state='current'  THEN 0   WHEN ticket_state = 'next'  THEN 1 WHEN ticket_state = 'pending'  THEN 2 END"
         if order_spec:
@@ -139,9 +151,6 @@ class QueueManagementService(models.Model):
     def new_ticket(self):
         self.ensure_one()
         self.env['queue.management.ticket'].create({'service_id': self.id})
-        # ticket_id = self.env['queue.management.ticket'].create({'service_id': self.id})
-        # printer = Network('192.168.1.169')
-        # printer._raw(ticket_id.name)
 
 
 class QueueManagementAgent(models.Model):
@@ -151,8 +160,6 @@ class QueueManagementAgent(models.Model):
     desk_id = fields.Many2one('queue.management.desk', string='Desk', required=True, copy=False)
     primary_service_id = fields.Many2one('queue.management.service',
                                          string="Primary service", required=True,)
-                                         # domain="[('id', 'in', service_ids[0][2])]"
-
 
     @api.multi
     def unlink(self):

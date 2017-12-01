@@ -36,9 +36,9 @@
 
   <t t-name="screen_viewer.screen.line">
     <tr t-att-data-id="line.id">
-      <td><t t-esc='line.ticket_id'/></td>
-      <td><t t-esc='line.desk'/></td>
-      <td><t t-esc='line.service_id'/></td>
+      <td><t t-esc='line.ticket_id[1]'/></td>
+      <td><t t-esc='line.desk_id[1]'/></td>
+      <td><t t-esc='line.service_id[1]'/></td>
     </tr>
   </t>
 </odoo>
