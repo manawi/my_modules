@@ -17,7 +17,6 @@
 
     "depends": [
         "base",
-        "base_details",
         # "hw_escpos",
         "website",
         "bus",

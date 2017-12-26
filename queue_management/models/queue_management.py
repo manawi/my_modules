@@ -13,10 +13,15 @@ class QueueManagementBranch(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['details_model'] = 'queue.management.branch'
+        vals['is_branch'] = True
         result = super(QueueManagementBranch, self).create(vals)
-        result.details_res_id = result.id
         return result
+
+    @api.multi
+    def unlink(self):
+        company_id = self.company_id
+        super(QueueManagementBranch, self).unlink()
+        company_id.unlink()
 
 
 class QueueManagementLog(models.Model):
@@ -128,6 +133,12 @@ class QueueManagementDesk(models.Model):
     _name = 'queue.management.desk'
     name = fields.Char(required=True, string='Desk')
     company_id = fields.Many2one('res.company')
+
+    @api.model
+    def default_get(self, fields_list):
+        result = super(QueueManagementDesk, self).default_get(fields_list)
+        result['company_id'] = self.env.user.company_id.id
+        return result
 
 
 class QueueManagementService(models.Model):

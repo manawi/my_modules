@@ -5,7 +5,8 @@ from odoo import models
 
 class Company(models.Model):
     _name = 'res.company'
-    _inherit = ['res.company', 'base_details']
+    _inherit = ['res.company']
+    is_branch = fields.Boolean()
 
     def _model_selection(self):
         selection = super(Company, self)._model_selection()

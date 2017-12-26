@@ -87,7 +87,6 @@
     </field>
   </record>
   
-<!-- Desk! -->
   <record model="ir.ui.view" id="queue_management_desk_view_form">
     <field name="name">queue.management.desk</field>
     <field name="model">queue.management.desk</field>
@@ -95,7 +94,6 @@
       <form string="queue_management_desk_form">
         <group>
           <field name="name"/>
-          <field name="company_id"/>
         </group>
       </form>
     </field>
@@ -112,19 +110,11 @@
             parent="main_menu_qm"
             groups="group_queue_management_branch_manager"
             action="action_desk"/>
-  <!-- -->
 
   <record model="ir.actions.act_window" id="action_ticket">
     <field name="name">Tickets</field>
     <field name="res_model">queue.management.ticket</field>
     <field name="view_mode">tree,form</field>
-    <!-- <field name="context">{ -->
-    <!-- 'search_default_next_customer': 1, -->
-    <!-- 'search_default_current_customer': 1,  -->
-    <!-- 'search_default_done_customer': 1, -->
-    <!-- 'search_default_pending_customer': 1, -->
-    <!-- } -->
-    <!-- </field> -->
   </record>
 
   <menuitem name="Tickets"
@@ -173,6 +163,39 @@
             groups="group_queue_management_branch_manager"
             action="action_service"/>
   
+  <!-- <record id="change_password_wizard_view" model="ir.ui.view"> -->
+  <!--   <field name="name">Change Password</field> -->
+  <!--   <field name="model">change.password.wizard</field> -->
+  <!--   <field name="arch" type="xml"> -->
+  <!--     <form string="Change Password"> -->
+  <!--       <field name="user_ids"/> -->
+  <!--       <footer> -->
+  <!--         <button string="Change Password" name="change_password_button" type="object" class="btn-primary"/> -->
+  <!--         <button string="Cancel" class="btn-default" special="cancel" /> -->
+  <!--       </footer> -->
+  <!--     </form> -->
+  <!--   </field> -->
+  <!-- </record> -->
+
+  <!-- <record id="change_password_wizard_user_tree_view" model="ir.ui.view"> -->
+  <!--   <field name="name">Change Password Users</field> -->
+  <!--   <field name="model">change.password.user</field> -->
+  <!--   <field name="arch" type="xml"> -->
+  <!--     <tree string="Users" editable="bottom" create="false" delete="false"> -->
+  <!--       <field name="user_login"/> -->
+  <!--       <field name="new_passwd" required="True" password="True"/> -->
+  <!--     </tree> -->
+  <!--   </field> -->
+  <!-- </record> -->
+
+  <!-- <act_window id="change_password_wizard_action" -->
+  <!--             name="Change Password" -->
+  <!--             src_model="res.users" -->
+  <!--             res_model="change.password.wizard" -->
+  <!--             view_type="form" view_mode="form" -->
+  <!--             key2="client_action_multi" target="new" -->
+  <!--             groups="group_queue_management_branch_manager"/> -->
+
   <record model="ir.ui.view" id="queue_management_view_form_agent">
     <field name="name">queue.management.agent</field>
     <field name="model">queue.management.agent</field>
@@ -201,7 +224,6 @@
             groups="group_queue_management_branch_manager"
             action="action_agent"/>
   
-  <!--Manager-->
   <record model="ir.ui.view" id="queue_management_view_form_manager">
     <field name="name">queue.management.manager</field>
     <field name="model">queue.management.manager</field>
@@ -211,7 +233,7 @@
           <field name="name" required="True"/>
           <field name="login"/>
           <field name="company_id" string="Branch"
-                 domain="[('details_model', '=', 'queue.management.branch')]"
+                 domain="[('is_branch', '=', True)]"
                  options="{'no_create': True, 'no_open': True}"/>
         </group>
       </form>
@@ -230,7 +252,6 @@
             groups="group_queue_management_admin"
             action="action_manager"/>
 
-  <!-- -->
   <record model="ir.ui.view" id="queue_management_view_form_branch">
     <field name="name">queue.management.branch</field>
     <field name="model">queue.management.branch</field>
