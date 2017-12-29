@@ -163,38 +163,38 @@
             groups="group_queue_management_branch_manager"
             action="action_service"/>
   
-  <!-- <record id="change_password_wizard_view" model="ir.ui.view"> -->
-  <!--   <field name="name">Change Password</field> -->
-  <!--   <field name="model">change.password.wizard</field> -->
-  <!--   <field name="arch" type="xml"> -->
-  <!--     <form string="Change Password"> -->
-  <!--       <field name="user_ids"/> -->
-  <!--       <footer> -->
-  <!--         <button string="Change Password" name="change_password_button" type="object" class="btn-primary"/> -->
-  <!--         <button string="Cancel" class="btn-default" special="cancel" /> -->
-  <!--       </footer> -->
-  <!--     </form> -->
-  <!--   </field> -->
-  <!-- </record> -->
+  <record id="change_password_wizard_agent_view" model="ir.ui.view">
+    <field name="name">queue.management.agent.pswd.wizard</field>
+    <field name="model">queue.management.agent.pswd.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Change Password">
+        <field name="user_ids"/>
+        <footer>
+          <button string="Change Password" name="change_password_button" type="object" class="btn-primary"/>
+          <button string="Cancel" class="btn-default" special="cancel" />
+        </footer>
+      </form>
+    </field>
+  </record>
 
-  <!-- <record id="change_password_wizard_user_tree_view" model="ir.ui.view"> -->
-  <!--   <field name="name">Change Password Users</field> -->
-  <!--   <field name="model">change.password.user</field> -->
-  <!--   <field name="arch" type="xml"> -->
-  <!--     <tree string="Users" editable="bottom" create="false" delete="false"> -->
-  <!--       <field name="user_login"/> -->
-  <!--       <field name="new_passwd" required="True" password="True"/> -->
-  <!--     </tree> -->
-  <!--   </field> -->
-  <!-- </record> -->
+  <record id="change_password_wizard_agent_tree_view" model="ir.ui.view">
+    <field name="name">Change Password for Agent</field>
+    <field name="model">change.password.agent</field>
+    <field name="arch" type="xml">
+      <tree string="Users" editable="bottom" create="false" delete="false">
+        <field name="user_login"/>
+        <field name="new_passwd" required="True" password="True"/>
+      </tree>
+    </field>
+  </record>
 
-  <!-- <act_window id="change_password_wizard_action" -->
-  <!--             name="Change Password" -->
-  <!--             src_model="res.users" -->
-  <!--             res_model="change.password.wizard" -->
-  <!--             view_type="form" view_mode="form" -->
-  <!--             key2="client_action_multi" target="new" -->
-  <!--             groups="group_queue_management_branch_manager"/> -->
+  <act_window id="change_password_agent_wizard_action"
+              name="Change Password"
+              src_model="queue.management.agent"
+              res_model="queue.management.agent.pswd.wizard"
+              view_type="form" view_mode="form"
+              key2="client_action_multi" target="new"
+              groups="base.group_erp_manager"/>
 
   <record model="ir.ui.view" id="queue_management_view_form_agent">
     <field name="name">queue.management.agent</field>
@@ -224,6 +224,39 @@
             groups="group_queue_management_branch_manager"
             action="action_agent"/>
   
+  <record id="change_password_wizard_manager_view" model="ir.ui.view">
+    <field name="name">queue.management.manager.pswd.wizard</field>
+    <field name="model">queue.management.manager.pswd.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Change Password">
+        <field name="user_ids"/>
+        <footer>
+          <button string="Change Password" name="change_password_button" type="object" class="btn-primary"/>
+          <button string="Cancel" class="btn-default" special="cancel" />
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="change_password_wizard_manager_tree_view" model="ir.ui.view">
+    <field name="name">Change Password for Manager</field>
+    <field name="model">change.password.manager</field>
+    <field name="arch" type="xml">
+      <tree string="Users" editable="bottom" create="false" delete="false">
+        <field name="user_login"/>
+        <field name="new_passwd" required="True" password="True"/>
+      </tree>
+    </field>
+  </record>
+
+  <act_window id="change_password_manager_wizard_action"
+              name="Change Password"
+              src_model="queue.management.manager"
+              res_model="queue.management.manager.pswd.wizard"
+              view_type="form" view_mode="form"
+              key2="client_action_multi" target="new"
+              groups="base.group_erp_manager"/>
+
   <record model="ir.ui.view" id="queue_management_view_form_manager">
     <field name="name">queue.management.manager</field>
     <field name="model">queue.management.manager</field>

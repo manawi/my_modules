@@ -210,3 +210,81 @@ class QueueManagementManager(models.Model):
         vals["company_ids"] = [(4, company_id, 0)]
         result = super(QueueManagementManager, self).create(vals)
         return result
+
+
+class ChangePasswordAgent(models.TransientModel):
+    _name = 'change.password.agent'
+    _description = 'Change Password Wizard for Agent'
+
+    wizard_id = fields.Many2one('queue.management.agent.pswd.wizard', string='Wizard', required=True)
+    user_id = fields.Many2one('res.users', string='User', required=True, ondelete='cascade')
+    user_login = fields.Char(string='User Login', readonly=True)
+    new_passwd = fields.Char(string='New Password', default='')
+
+    @api.multi
+    def change_password_button(self):
+        for line in self:
+            line.user_id.write({'password': line.new_passwd})
+        self.write({'new_passwd': False})
+
+
+class ChangePasswordManager(models.TransientModel):
+    _name = 'change.password.manager'
+    _description = 'Change Password Wizard for Manager'
+
+    wizard_id = fields.Many2one('queue.management.manager.pswd.wizard', string='Wizard', required=True)
+    user_id = fields.Many2one('res.users', string='User', required=True, ondelete='cascade')
+    user_login = fields.Char(string='User Login', readonly=True)
+    new_passwd = fields.Char(string='New Password', default='')
+
+    @api.multi
+    def change_password_button(self):
+        for line in self:
+            line.user_id.write({'password': line.new_passwd})
+        self.write({'new_passwd': False})
+
+
+class QueueManagementAgentPswdWizard(models.Model):
+    _name = 'queue.management.agent.pswd.wizard'
+    _description = "Change Password Wizard"
+
+    def _default_user_ids(self):
+        agent_ids = self._context.get('active_model') == 'queue.management.agent' and self._context.get('active_ids') or []
+        agents = self.env['queue.management.agent'].browse(agent_ids)
+        return [
+            (0, 0, {'user_id': user.id, 'user_login': user.login})
+            for user in agents.mapped('user_id')
+        ]
+
+    user_ids = fields.One2many('change.password.agent', 'wizard_id', string='Users', default=_default_user_ids)
+
+    @api.multi
+    def change_password_button(self):
+        self.ensure_one()
+        self.user_ids.change_password_button()
+        if self.env.user in self.mapped('user_ids.user_id'):
+            return {'type': 'ir.actions.client', 'tag': 'reload'}
+        return {'type': 'ir.actions.act_window_close'}
+
+
+class QueueManagementManagerPswdWizard(models.Model):
+    _name = 'queue.management.manager.pswd.wizard'
+    _description = "Change Password Wizard"
+
+    def _default_user_ids(self):
+        manager_ids = self._context.get('active_model') == 'queue.management.manager' and self._context.get('active_ids') or []
+        managers = self.env['queue.management.manager'].browse(manager_ids)
+        return [
+            (0, 0, {'user_id': user.id, 'user_login': user.login})
+            for user in managers.mapped('user_id')
+        ]
+
+    user_ids = fields.One2many('change.password.manager', 'wizard_id', string='Users', default=_default_user_ids)
+
+    @api.multi
+    def change_password_button(self):
+        self.ensure_one()
+        self.user_ids.change_password_button()
+        if self.env.user in self.mapped('user_ids.user_id'):
+            return {'type': 'ir.actions.client', 'tag': 'reload'}
+        return {'type': 'ir.actions.act_window_close'}
