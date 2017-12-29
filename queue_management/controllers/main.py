@@ -41,18 +41,6 @@ class QueueManagement(BusController):
         log_records = request.env['queue.management.log'].sudo().search([('ticket_state', '=', 'current'),
                                                                          ('service_id.branch_id', '=', branch.id)])
         values = {
-            'branch': branch,
             'log_records': log_records,
         }
         return http.request.render('queue_management.queue_screen', values)
-
-    @http.route('/queue/screen2/', auth='public')
-    def screen2(self, **kw):
-        branch_id = int(kw.get('branch_id'))
-        branch = request.env['queue.management.branch'].sudo().browse(branch_id)
-        log_records = request.env['queue.management.log'].sudo().search([('ticket_state', '=', 'current'),
-                                                                         ('service_id.branch_id', '=', branch.id)])
-        values = {
-            'log_records': log_records,
-        }
-        return http.request.render('queue_management.queue_screen2', values)
